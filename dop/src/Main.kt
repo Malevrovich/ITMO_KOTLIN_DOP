@@ -3,21 +3,12 @@ import java.util.*
 class Main {
     private val data: MutableList<Pair<String, Cat>> = LinkedList()
 
-    fun printCat(cat: Cat, name: String){
+    private fun printCat(cat: Cat, name: String){
         println(name + ": {age: " + cat.age + ", color: " + cat.color + ", weight: " + cat.weight + "}")
     }
 
-    fun find(name: String): Cat?{
-        for(i in data){
-            if(i.first == name){
-                return i.second
-            }
-        }
-        return null
-    }
-
     fun create(name: String, color: String, age: Int, weight: Int){
-        if(find(name) == null){
+        if(data.firstOrNull { it.first == name } == null){
             data.add(Pair(name, Cat(color, age, weight)))
             printCat(data.last().second, data.last().first)
         } else{
@@ -26,7 +17,7 @@ class Main {
     }
 
     fun read(name: String){
-        val tmp = find(name)
+        val tmp = data.firstOrNull { it.first == name }?.second
         if(tmp != null){
             printCat(tmp, name)
         } else{
@@ -35,9 +26,7 @@ class Main {
     }
 
     fun delete(name: String){
-        val tmp = find(name)
-        if(tmp != null){
-            data.remove(Pair(name, tmp))
+        if(data.removeIf { it.first == name } ){
             println("OK")
         } else{
             println("Delete: not found")
