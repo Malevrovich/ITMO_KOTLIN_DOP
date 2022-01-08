@@ -1,55 +1,52 @@
-class Main {
-    val keys: Array<String> = Array(1000) {"none"}
-    val values: Array<Cat?> = Array(1000) {null}
-    var size = 0
+import java.util.*
 
-    fun printCat(cat: Cat){
-        println(cat.name + ": {" + "name: " + cat.name + ", age: " + cat.age + ", color: " + cat.color + ", weight: " + cat.weight + "}")
+class Main {
+    private val data: MutableList<Pair<String, Cat>> = LinkedList()
+
+    fun printCat(cat: Cat, name: String){
+        println(name + ": {age: " + cat.age + ", color: " + cat.color + ", weight: " + cat.weight + "}")
+    }
+
+    fun find(name: String): Cat?{
+        for(i in data){
+            if(i.first == name){
+                return i.second
+            }
+        }
+        return null
     }
 
     fun create(name: String, color: String, age: Int, weight: Int){
-        val cat = Cat(name, color, age, weight)
-
-        keys[size] = name
-        values[size] = cat
-
-        size++
-
-        printCat(cat)
+        if(find(name) == null){
+            data.add(Pair(name, Cat(color, age, weight)))
+            printCat(data.last().second, data.last().first)
+        } else{
+            println("Create: already exists")
+        }
     }
 
     fun read(name: String){
-        for(i in 0..999){
-            if(keys[i] == name){
-                printCat(values[i]!!)
-                break
-            }
+        val tmp = find(name)
+        if(tmp != null){
+            printCat(tmp, name)
+        } else{
+            println("Read: not found")
         }
     }
 
     fun delete(name: String){
-        for(i in 0..999){
-            if(keys[i] == name){
-                for(k in i..998){
-                    keys[k] = keys[k+1]
-                    values[k] = values[k+1]
-
-                    if(keys[k] == "none"){
-                        break
-                    }
-                }
-                break
-            }
+        val tmp = find(name)
+        if(tmp != null){
+            data.remove(Pair(name, tmp))
+            println("OK")
+        } else{
+            println("Delete: not found")
         }
-        println("OK")
     }
 
     fun readAll(){
-        for(i in 0..1000){
-            if(keys[i] == "none"){
-                break
-            }
-            printCat(values[i]!!)
+        for(i in data){
+            printCat(i.second, i.first)
         }
     }
 }
