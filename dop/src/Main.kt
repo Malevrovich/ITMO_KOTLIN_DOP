@@ -3,25 +3,25 @@ class Main {
     val values: Array<Cat?> = Array(1000) {null}
     var size = 0
 
-    fun printCat(cat: Cat){
-        println(cat.name + ": {" + "name: " + cat.name + ", age: " + cat.age + ", color: " + cat.color + ", weight: " + cat.weight + "}")
+    fun printCat(cat: Cat, name: String){
+        println(name + ": {age: " + cat.age + ", color: " + cat.color + ", weight: " + cat.weight + "}")
     }
 
     fun create(name: String, color: String, age: Int, weight: Int){
-        val cat = Cat(name, color, age, weight)
+        val cat = Cat(color, age, weight)
 
         keys[size] = name
         values[size] = cat
 
         size++
 
-        printCat(cat)
+        printCat(cat, name)
     }
 
     fun read(name: String){
         for(i in 0..999){
             if(keys[i] == name){
-                printCat(values[i]!!)
+                printCat(values[i]!!, name)
                 break
             }
         }
@@ -49,7 +49,7 @@ class Main {
             if(keys[i] == "none"){
                 break
             }
-            printCat(values[i]!!)
+            printCat(values[i]!!, keys[i])
         }
     }
 }
