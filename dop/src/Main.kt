@@ -41,6 +41,7 @@ class Main {
                 break
             }
         }
+        size--
         println("OK")
     }
 
